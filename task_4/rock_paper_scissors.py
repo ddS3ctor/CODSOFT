@@ -3,8 +3,11 @@
    mpho4phane@gmail.com                  ._.       rock_paper_scissors.
 '''
 
-import tkinter
 import random
+import tkinter
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from ttkbootstrap.tooltip import ToolTip
 
 class RockPaperScissors:
     def __init__(self, root):
@@ -13,33 +16,37 @@ class RockPaperScissors:
 
         self.user_score = 0
         self.computer_score = 0
+        self.root.geometry("250x200")
+        
+        self.user_label = tkinter.Label(root, text="Your Choice:", font=('Arial', 10))
+        self.user_label.pack()
 
-        self.user_label = tkinter.Label(root, text="Your Choice:", font=('Arial', 14))
-        self.user_label.grid(row=0, column=0)
+        self.user_choice_label = tkinter.Label(root, text="", font=('Arial', 10))
+        self.user_choice_label.pack()
 
-        self.user_choice_label = tkinter.Label(root, text="", font=('Arial', 14))
-        self.user_choice_label.grid(row=0, column=1)
+        self.computer_label = tkinter.Label(root, text="Computer's Choice:", font=('Arial', 10))
+        self.computer_label.pack()
 
-        self.computer_label = tkinter.Label(root, text="Computer's Choice:", font=('Arial', 14))
-        self.computer_label.grid(row=1, column=0)
+        self.computer_choice_label = tkinter.Label(root, text="", font=('Arial', 10))
+        self.computer_choice_label.pack()
 
-        self.computer_choice_label = tkinter.Label(root, text="", font=('Arial', 14))
-        self.computer_choice_label.grid(row=1, column=1)
+        self.result_label = tkinter.Label(root, text="", font=('Arial', 10, 'bold'))
+        self.result_label.pack()
 
-        self.result_label = tkinter.Label(root, text="", font=('Arial', 14))
-        self.result_label.grid(row=2, columnspan=2)
+        self.score_label = tkinter.Label(root, text="", font=('Arial', 10))
+        self.score_label.pack()
+        
+        self.rock_button = ttk.Button(root, text="Rock", bootstyle="warning-outline", command=lambda: self.play_round("rock"))
+        self.rock_button.pack(side=LEFT, fill=X, anchor=CENTER)
+        ToolTip(self.rock_button, text="Wins against Scissors")
 
-        self.score_label = tkinter.Label(root, text="", font=('Arial', 14))
-        self.score_label.grid(row=3, columnspan=2)
+        self.rock_button = ttk.Button(root, text="Paper", bootstyle="secondary-outline", command=lambda: self.play_round("paper"))
+        self.rock_button.pack(side=LEFT, fill=X, anchor=CENTER)
+        ToolTip(self.rock_button, text="Wins against Rock")
 
-        self.rock_button = tkinter.Button(root, text="Rock", font=('Arial', 14), command=lambda: self.play_round("rock"))
-        self.rock_button.grid(row=4, column=0)
-
-        self.paper_button = tkinter.Button(root, text="Paper", font=('Arial', 14), command=lambda: self.play_round("paper"))
-        self.paper_button.grid(row=4, column=1)
-
-        self.scissors_button = tkinter.Button(root, text="Scissors", font=('Arial', 14), command=lambda: self.play_round("scissors"))
-        self.scissors_button.grid(row=5, column=0, columnspan=2)
+        self.rock_button = ttk.Button(root, text="Scissors", bootstyle="dark-outline", command=lambda: self.play_round("scissors"))
+        self.rock_button.pack(side=LEFT, fill=X, anchor=CENTER)
+        ToolTip(self.rock_button, text="Wins against Paper")
 
     def get_computer_choice(self):
         return random.choice(['rock', 'paper', 'scissors'])
@@ -59,7 +66,10 @@ class RockPaperScissors:
     def update_labels(self, user_choice, computer_choice, result):
         self.user_choice_label.config(text=user_choice.capitalize())
         self.computer_choice_label.config(text=computer_choice.capitalize())
-        self.result_label.config(text=result)
+        color = 'black'
+        if result == 'You win!': color = 'green'
+        elif result == 'You lose!': color = 'red'
+        self.result_label.config(text=result, fg=color)
         self.score_label.config(text=f"Score: You {self.user_score} - {self.computer_score} Computer")
 
     def play_round(self, user_choice):
