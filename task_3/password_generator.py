@@ -89,7 +89,6 @@ def generate_password(length: int, complexity):
         gen_2_numbers = numbers[shuffle(0, len(numbers) - 1)] + numbers[shuffle(0, len(numbers) - 1)]
         password[2] = gen_2_numbers[0]
         password[3] = gen_2_numbers[1]
-        print(password)
         if length > 4:
             numbers_and_letters = letters + numbers + [letter for letter in letters]
             for i in range(length - 4): 
